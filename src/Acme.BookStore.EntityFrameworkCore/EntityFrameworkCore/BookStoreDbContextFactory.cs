@@ -3,11 +3,10 @@ using System.IO;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
+using Volo.Abp.EntityFrameworkCore.MySQL; // <-- BẮT BUỘC Phải có dòng này
 
 namespace Acme.BookStore.EntityFrameworkCore;
 
-/* This class is needed for EF Core console commands
- * (like Add-Migration and Update-Database commands) */
 public class BookStoreDbContextFactory : IDesignTimeDbContextFactory<BookStoreDbContext>
 {
     public BookStoreDbContext CreateDbContext(string[] args)
@@ -17,7 +16,7 @@ public class BookStoreDbContextFactory : IDesignTimeDbContextFactory<BookStoreDb
         var configuration = BuildConfiguration();
 
         var builder = new DbContextOptionsBuilder<BookStoreDbContext>()
-            .UseMySql(configuration.GetConnectionString("Default"), MySqlServerVersion.LatestSupportedServerVersion);
+            .UseMySQL(configuration.GetConnectionString("Default")); // <-- Dùng UseMySQL (chữ S viết hoa)
 
         return new BookStoreDbContext(builder.Options);
     }
